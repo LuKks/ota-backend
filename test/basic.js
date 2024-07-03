@@ -2,7 +2,7 @@ const test = require('brittle')
 const FormData = require('form-data')
 const launch = require('../app.js')
 
-test.solo('basic', async function (t) {
+test('basic', async function (t) {
   const request = await launch(t)
 
   // Create a new firmware
