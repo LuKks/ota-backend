@@ -1,0 +1,42 @@
+{
+  "private": true,
+  "name": "ota-backend",
+  "version": "0.0.0",
+  "description": "Firmware hosting for Over-The-Air updates",
+  "main": "app.js",
+  "scripts": {
+    "test": "standard && brittle test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lukks/ota-backend.git"
+  },
+  "author": "LuKks",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lukks/ota-backend/issues"
+  },
+  "homepage": "https://github.com/lukks/ota-backend#readme",
+  "devDependencies": {
+    "brittle": "^3.3.2",
+    "form-data": "^4.0.0",
+    "standard": "^17.1.0"
+  },
+  "dependencies": {
+    "busboy": "^1.6.0",
+    "compact-encoding": "^2.15.0",
+    "corestore": "^6.18.2",
+    "dotenv": "^16.4.5",
+    "hyperbee": "^2.19.7",
+    "hypercore-crypto": "^3.4.2",
+    "hyperdrive": "^11.8.1",
+    "like-backend": "^2.2.0",
+    "like-express": "^1.0.5",
+    "like-tmp": "^1.0.0",
+    "random-access-memory": "^6.2.1",
+    "streamx": "^2.18.0",
+    "tiny-error-http": "^1.0.0",
+    "yup": "^1.4.0",
+    "z32": "^1.1.0"
+  }
+}
