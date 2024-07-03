@@ -24,6 +24,12 @@ x-ota-firmware-id: <firmware-id>
 x-ota-device-id: <random-id>
 ```
 
+Optionally, set the env `OTA_SECRET` to require it for all endpoints:
+
+```
+x-ota-secret: <secret>
+```
+
 Status code
 
 - 401 `INVALID_AUTH`
@@ -196,6 +202,8 @@ Set environment variables by using the `.env` file:
 ```sh
 BACKEND_HOST = "127.0.0.1"
 BACKEND_PORT = 1337
+
+OTA_SECRET = "" # Optional to protect all endpoints
 ```
 
 Run the server:

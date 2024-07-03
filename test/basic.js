@@ -7,7 +7,8 @@ test.solo('basic', async function (t) {
 
   // Create a new firmware
   const firmware = await request('/v1/create', {
-    method: 'POST'
+    method: 'POST',
+    validateStatus: 200
   })
 
   // Allow a device
@@ -233,6 +234,24 @@ test('big download is interrupted by new upload', async function (t) {
   } catch (err) {
     t.is(err.message, 'Stream closed')
   }
+})
+
+test('protect endpoints', async function (t) {
+  const request = await launch(t)
+
+  process.env.OTA_SECRET = '1234'
+
+  await request('/v1/create', {
+    method: 'POST',
+    validateStatus: 400
+  })
+
+  process.env.OTA_SECRET = ''
+
+  await request('/v1/create', {
+    method: 'POST',
+    validateStatus: 200
+  })
 })
 
 function readChunk (body) {

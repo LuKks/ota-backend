@@ -9,6 +9,7 @@ const Hyperbee = require('hyperbee')
 const c = require('compact-encoding')
 const RAM = require('random-access-memory')
 const Drives = require('./lib/drives.js')
+const authSecret = require('./middleware/auth-secret.js')
 const authFirmware = require('./middleware/auth-firmware.js')
 const authDevice = require('./middleware/auth-device.js')
 
@@ -30,6 +31,8 @@ async function main () {
   })
 
   const api = express.Router()
+
+  api.use(authSecret)
 
   api.post('/create', require('./api/create.js'))
 
