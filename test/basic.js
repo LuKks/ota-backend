@@ -21,7 +21,7 @@ test('basic', async function (t) {
   })
 
   // Devie checks for latest but there is no firwmare yet
-  await request('/v1/check/?hash=', {
+  await request('/v1/check', {
     method: 'GET',
     headers: { 'x-ota-firmware-id': firmware.id, 'x-ota-device-id': deviceId },
     validateStatus: 404
@@ -43,7 +43,7 @@ test('basic', async function (t) {
   })
 
   // Device checks again for latest
-  const firstUpdate = await request('/v1/check/?hash=', {
+  const firstUpdate = await request('/v1/check', {
     method: 'GET',
     headers: { 'x-ota-firmware-id': firmware.id, 'x-ota-device-id': deviceId },
     validateStatus: 200,
@@ -62,7 +62,7 @@ test('basic', async function (t) {
   t.alike(await firstDownload.buffer(), Buffer.from('Hello World!'))
 
   // Device is already on latest
-  await request('/v1/check/?hash=' + firstUpdate, {
+  await request('/v1/check/' + firstUpdate, {
     method: 'GET',
     headers: { 'x-ota-firmware-id': firmware.id, 'x-ota-device-id': deviceId },
     validateStatus: 204,
@@ -77,7 +77,7 @@ test('basic', async function (t) {
   })
 
   // Device is not allowed to check anymore
-  await request('/v1/check/?hash=', {
+  await request('/v1/check', {
     method: 'GET',
     headers: { 'x-ota-firmware-id': firmware.id, 'x-ota-device-id': deviceId },
     validateStatus: 401
@@ -137,7 +137,7 @@ test('re-upload', async function (t) {
   })
 
   // Check without hash
-  const firstCheck = await request('/v1/check/?hash=', {
+  const firstCheck = await request('/v1/check', {
     method: 'GET',
     headers: { 'x-ota-firmware-id': firmware.id, 'x-ota-device-id': deviceId },
     validateStatus: 200,
@@ -147,7 +147,7 @@ test('re-upload', async function (t) {
   t.is(firstCheck, uploaded2.hash)
 
   // Check older hash
-  const secondCheck = await request('/v1/check/?hash=' + uploaded.hash, {
+  const secondCheck = await request('/v1/check/' + uploaded.hash, {
     method: 'GET',
     headers: { 'x-ota-firmware-id': firmware.id, 'x-ota-device-id': deviceId },
     validateStatus: 200,

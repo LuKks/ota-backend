@@ -146,7 +146,7 @@ Status code
 <details>
 <summary>Check for updates</summary>
 
-#### `POST /v1/check/?hash=<h>`
+#### `POST /v1/check/:hash?`
 
 Request headers
 

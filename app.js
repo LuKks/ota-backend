@@ -41,7 +41,7 @@ async function main () {
 
   api.post('/upload', authFirmware, require('./api/upload.js'))
 
-  api.get('/check', authDevice, require('./api/check.js'))
+  api.get('/check/:hash?', authDevice, require('./api/check.js'))
   api.get('/download/:hash', authDevice, require('./api/download.js'))
 
   app.use('/v1', api)

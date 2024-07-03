@@ -1,7 +1,7 @@
 const yup = require('yup')
 const ErrorHTTP = require('tiny-error-http')
 
-const schemaQuery = yup.object().shape({
+const schemaParams = yup.object().shape({
   hash: yup.string()
 }).required()
 
@@ -12,9 +12,9 @@ module.exports = async function (req, res) {
     throw new ErrorHTTP(404, 'FIRMWARE_NOT_UPLOADED')
   }
 
-  const query = await schemaQuery.validate(req.query)
+  const params = await schemaParams.validate(req.params)
 
-  if (query.hash === file.value.metadata.hash) {
+  if (params.hash === file.value.metadata.hash) {
     res.sendStatus(204)
     return
   }
