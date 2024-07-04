@@ -254,6 +254,58 @@ test('protect endpoints', async function (t) {
   })
 })
 
+test.solo('partial download', async function (t) {
+  const request = await launch(t)
+
+  const firmware = await request('/v1/create', { method: 'POST' })
+
+  const deviceId = 'abc'
+
+  await request('/v1/firewall/allow', {
+    method: 'POST',
+    headers: { 'x-ota-firmware-id': firmware.id, 'x-ota-firmware-key': firmware.key },
+    body: { device_id: deviceId }
+  })
+
+  // Upload
+  const form = new FormData()
+
+  form.append('file', Buffer.from('Hello World!'), {
+    filename: 'firmware.bin',
+    contentType: 'text/plain'
+  })
+
+  const uploaded = await request('/v1/upload', {
+    method: 'POST',
+    headers: { 'x-ota-firmware-id': firmware.id, 'x-ota-firmware-key': firmware.key },
+    requestType: 'form',
+    body: form
+  })
+
+  // Partial download
+  const chunk1 = await downloadRange({ start: 0, end: 4 })
+  const chunk2 = await downloadRange({ start: 6, end: 10 })
+  const chunk3 = await downloadRange({ start: 11, end: 11 })
+
+  t.alike(chunk1, Buffer.from('Hello'))
+  t.alike(chunk2, Buffer.from('World'))
+  t.alike(chunk3, Buffer.from('!'))
+
+  async function downloadRange (range) {
+    const download = await request('/v1/download/' + uploaded.hash, {
+      method: 'GET',
+      headers: {
+        range: 'bytes=' + range.start + '-' + range.end,
+        'x-ota-firmware-id': firmware.id,
+        'x-ota-device-id': deviceId
+      },
+      responseType: false
+    })
+
+    return download.buffer()
+  }
+})
+
 function readChunk (body) {
   return new Promise((resolve, reject) => {
     if (body.closed) {

@@ -34,6 +34,7 @@
     "like-express": "^1.0.5",
     "like-tmp": "^1.0.0",
     "random-access-memory": "^6.2.1",
+    "range-parser": "^1.2.1",
     "streamx": "^2.18.0",
     "tiny-error-http": "^1.0.0",
     "yup": "^1.4.0",
